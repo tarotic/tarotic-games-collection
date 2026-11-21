@@ -1,0 +1,165 @@
+:root {
+  --bg: #f5f3ef;
+  --ink: #2b2b2b;
+  --muted: #6b6b6b;
+  --line: #9a9a9a;
+  --thick: #2b2b2b;
+  --cell: #ffffff;
+  --given: #1f2a44;
+  --player: #1b6ca8;
+  --selected: #cfe6ff;
+  --related: #eaf3fc;
+  --same: #ffe8b3;
+  --wrong: #d9534f;
+  --accent: #3a6ea5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+h1 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.controls,
+.actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--muted);
+}
+
+select,
+button {
+  font: inherit;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+button:hover,
+select:hover {
+  border-color: var(--accent);
+}
+
+button:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Board */
+.board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 3px solid var(--thick);
+  background: var(--thick);
+  user-select: none;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(16px, 4.5vw, 26px);
+  background: var(--cell);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  color: var(--player);
+  font-variant-numeric: tabular-nums;
+}
+
+.cell.given {
+  color: var(--given);
+  font-weight: 700;
+  cursor: default;
+}
+
+.cell:nth-child(9n) {
+  border-right: 3px solid var(--thick);
+}
+
+.cell:nth-child(n + 19):nth-child(-n + 27),
+.cell:nth-child(n + 46):nth-child(-n + 54),
+.cell:nth-child(n + 73):nth-child(-n + 81) {
+  border-bottom: 3px solid var(--thick);
+}
+
+.cell.related {
+  background: var(--related);
+}
+
+.cell.same {
+  background: var(--same);
+}
+
+.cell.selected {
+  background: var(--selected);
+}
+
+.cell.wrong {
+  color: var(--wrong);
+}
+
+/* Number pad */
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.numpad button {
+  padding: 10px 0;
+  font-size: 18px;
+}
+
+.numpad .erase {
+  grid-column: span 5;
+  font-size: 15px;
+}
+
+.status {
+  min-height: 1.5em;
+  margin: 0;
+  color: var(--muted);
+  text-align: center;
+}
+
+.status.win {
+  color: #2e7d32;
+  font-weight: 600;
+}

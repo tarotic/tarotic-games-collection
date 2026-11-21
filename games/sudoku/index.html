@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sudoku</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <h1>Sudoku</h1>
+
+    <div class="controls">
+      <label>
+        Difficulty
+        <select id="difficulty">
+          <option value="easy">Easy (40 clues)</option>
+          <option value="medium" selected>Medium (32 clues)</option>
+          <option value="hard">Hard (26 clues)</option>
+        </select>
+      </label>
+      <button id="new-game" type="button">New game</button>
+    </div>
+
+    <div id="board" class="board" role="grid" aria-label="Sudoku board"></div>
+
+    <div class="numpad" id="numpad">
+      <button type="button" data-value="1">1</button>
+      <button type="button" data-value="2">2</button>
+      <button type="button" data-value="3">3</button>
+      <button type="button" data-value="4">4</button>
+      <button type="button" data-value="5">5</button>
+      <button type="button" data-value="6">6</button>
+      <button type="button" data-value="7">7</button>
+      <button type="button" data-value="8">8</button>
+      <button type="button" data-value="9">9</button>
+      <button type="button" data-value="0" class="erase">Erase</button>
+    </div>
+
+    <div class="actions">
+      <button id="check" type="button">Check</button>
+      <button id="reset" type="button">Restart puzzle</button>
+    </div>
+
+    <p id="status" class="status" aria-live="polite"></p>
+  </main>
+
+  <script src="sudoku-core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

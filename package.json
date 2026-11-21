@@ -1,0 +1,10 @@
+{
+  "name": "tarotic-games-collection",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A collection of games to play locally",
+  "scripts": {
+    "test": "node --test games/sudoku/"
+  },
+  "license": "UNLICENSED"
+}
