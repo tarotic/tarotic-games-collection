@@ -19,6 +19,10 @@
   const faceEl = document.getElementById("face-style");
   const uiEl = document.getElementById("ui-theme");
   const bgEl = document.getElementById("bg-color");
+  const DealAnim = window.SpiderDealAnim;
+  const dealLayer = document.getElementById("deal-layer");
+  const dealGuard = DealAnim.createDealGuard();
+  let dealFlights = []; // Animation objects of the running deal
 
   let current = null; // current game state (immutable snapshots)
   let history = []; // previous states for undo
@@ -48,6 +52,7 @@
   function applySettings() {
     boardEl.className = `board face-${settings.face} back-${settings.back}`;
     stockEl.className = `stock back-${settings.back}`;
+    dealLayer.className = `deal-layer face-${settings.face} back-${settings.back}`;
     document.body.className = `ui-${settings.ui}`;
     document.documentElement.style.setProperty("--bg", settings.bg);
     document.body.style.background = settings.bg;
@@ -66,10 +71,12 @@
   // ---------- Game flow ----------
 
   function newGame() {
+    cancelDealAnimation();
     const suitCount = Number(suitsEl.value);
     const deals = Bank[suitCount] || [];
     if (deals.length === 0) {
       setStatus(`No winnable ${suitCount}-suit deals are available.`);
+      render();
       return;
     }
     // Pick a random winnable deal, avoiding an immediate repeat when possible.
@@ -101,6 +108,7 @@
   }
 
   function undo() {
+    if (dealGuard.isBusy()) return;
     if (history.length === 0) return;
     current = history.pop();
     moveCount--;
@@ -109,13 +117,17 @@
   }
 
   function dealRow() {
+    if (dealGuard.isBusy()) return;
     if (!Spider.canDeal(current)) {
       setStatus(current.stock.length === 0
         ? "No cards left to deal."
         : "Every column needs at least one card before you can deal.");
       return;
     }
-    doMove({ type: "deal" });
+    const before = current;
+    if (!doMove({ type: "deal" })) return;
+    const steps = DealAnim.dealPlan(before, current, { reduceMotion: !canAnimateDeal() });
+    if (steps) animateDeal(steps);
   }
 
   function setStatus(text, won) {
@@ -164,11 +176,92 @@
     count.className = "count";
     count.textContent = `${dealsLeft} deal${dealsLeft === 1 ? "" : "s"} left`;
     stockEl.appendChild(count);
-    stockEl.disabled = current.stock.length === 0;
+    stockEl.disabled = current.stock.length === 0 || dealGuard.isBusy();
 
-    undoEl.disabled = history.length === 0;
+    undoEl.disabled = history.length === 0 || dealGuard.isBusy();
     movesEl.textContent = String(moveCount);
     completedEl.textContent = String(current.completed);
+  }
+
+  // ---------- Deal animation ----------
+
+  function canAnimateDeal() {
+    return typeof Element.prototype.animate === "function" &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function flyingCardEl(card) {
+    const fly = document.createElement("div");
+    fly.className = "deal-fly";
+    const back = document.createElement("div");
+    back.className = "card down deal-back";
+    const front = cardEl(card, -1, -1);
+    front.classList.add("deal-front");
+    fly.appendChild(back);
+    fly.appendChild(front);
+    return fly;
+  }
+
+  function dealTargetRect(step) {
+    const colEl = boardEl.querySelector(`.column[data-col="${step.col}"]`);
+    if (step.landIndex >= 0) {
+      const r = colEl.children[step.landIndex].getBoundingClientRect();
+      return { left: r.left, top: r.top };
+    }
+    if (colEl.children.length > 0) {
+      const off = parseFloat(getComputedStyle(boardEl).getPropertyValue("--off-up")) || 28;
+      const r = colEl.lastElementChild.getBoundingClientRect();
+      return { left: r.left, top: r.top + off };
+    }
+    const r = colEl.getBoundingClientRect();
+    return { left: r.left, top: r.top };
+  }
+
+  function animateDeal(steps) {
+    const token = dealGuard.begin();
+    stockEl.disabled = true;
+    undoEl.disabled = true;
+    const stockRect = stockEl.getBoundingClientRect();
+    steps.forEach((step, i) => {
+      const target = dealTargetRect(step);
+      const colEl = boardEl.querySelector(`.column[data-col="${step.col}"]`);
+      const real = step.landIndex >= 0 ? colEl.children[step.landIndex] : null;
+      if (real) real.classList.add("deal-pending");
+      const fly = flyingCardEl(step.card);
+      fly.style.left = `${target.left}px`;
+      fly.style.top = `${target.top}px`;
+      dealLayer.appendChild(fly);
+      const dx = stockRect.left - target.left;
+      const dy = stockRect.top - target.top;
+      const anim = fly.animate(
+        [
+          { transform: `translate(${dx}px, ${dy}px) perspective(900px) rotateY(0deg)` },
+          { transform: "translate(0px, 0px) perspective(900px) rotateY(180deg)" },
+        ],
+        { duration: step.duration, delay: step.delay, easing: "ease-in-out", fill: "both" }
+      );
+      dealFlights.push(anim);
+      anim.onfinish = () => {
+        if (!dealGuard.isCurrent(token)) return;
+        fly.remove();
+        if (real) real.classList.remove("deal-pending");
+        if (i === steps.length - 1) finishDeal(token);
+      };
+    });
+  }
+
+  function finishDeal(token) {
+    if (!dealGuard.end(token)) return;
+    dealFlights = [];
+    dealLayer.textContent = "";
+    render();
+  }
+
+  function cancelDealAnimation() {
+    dealGuard.cancel();
+    dealFlights.forEach((a) => a.cancel());
+    dealFlights = [];
+    dealLayer.textContent = "";
   }
 
   // ---------- Drag and drop ----------
@@ -202,6 +295,7 @@
   }
 
   boardEl.addEventListener("pointerdown", (e) => {
+    if (dealGuard.isBusy()) return;
     if (e.button !== 0) return;
     const el = e.target.closest(".card.up");
     if (!el) return;
@@ -272,6 +366,7 @@
 
   // Double-click a run to send it to the best column automatically.
   boardEl.addEventListener("dblclick", (e) => {
+    if (dealGuard.isBusy()) return;
     const el = e.target.closest(".card.up");
     if (!el) return;
     const col = Number(el.dataset.col);

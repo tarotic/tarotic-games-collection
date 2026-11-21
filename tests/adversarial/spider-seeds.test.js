@@ -5,7 +5,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
 
-const dir = path.join(__dirname, "..", "..", "games", "spider");
+const dir = path.join(process.env.SPIDER_ROOT || path.join(__dirname, "..", ".."), "games", "spider");
 const Core = require(path.join(dir, "spider-core.js"));
 
 function loadBank() {

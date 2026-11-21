@@ -246,6 +246,19 @@ button:focus-visible, select:focus-visible { outline: 3px solid #ffd54a; outline
 .ghost { position: fixed; pointer-events: none; }
 .ghost .card { position: absolute; left: 0; }
 
+/* ---------- Stock deal animation ---------- */
+.deal-layer { position: fixed; inset: 0; pointer-events: none; z-index: 60; overflow: hidden; }
+.deal-fly {
+  position: absolute;
+  width: var(--card-w);
+  height: var(--card-h);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.deal-fly .card { position: absolute; inset: 0; margin: 0; backface-visibility: hidden; }
+.deal-fly .deal-front { transform: rotateY(180deg); }
+.card.deal-pending { visibility: hidden; }
+
 /* ---------- Settings dialog ---------- */
 .settings {
   border: none;

@@ -99,6 +99,26 @@ test("deal adds one face-up card to each column", () => {
   });
 });
 
+test("deal moves the top 10 stock cards to columns 0 to 9 in order, face-up", () => {
+  for (const [suitCount, seed] of [[1, 5], [2, 5], [4, 5]]) {
+    const g = Spider.newGame(suitCount, seed);
+    const before = JSON.stringify(g);
+    const next = Spider.dealRow(g);
+    for (let i = 0; i < 10; i++) {
+      assert.equal(next.columns[i].length, g.columns[i].length + 1);
+      const last = next.columns[i][next.columns[i].length - 1];
+      const src = g.stock[g.stock.length - 1 - i];
+      assert.equal(last.suit, src.suit);
+      assert.equal(last.rank, src.rank);
+      assert.equal(last.faceUp, true);
+      assert.deepEqual(next.columns[i].slice(0, -1), g.columns[i]);
+    }
+    assert.equal(next.stock.length, g.stock.length - 10);
+    assert.deepEqual(next.stock, g.stock.slice(0, -10));
+    assert.equal(JSON.stringify(g), before);
+  }
+});
+
 // Every deal the player can be dealt comes from the seed bank, and each one stores
 // a winning line. Replaying those lines proves the deals are winnable and catches
 // any change to the deal or the rules that would break them.
