@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spider Solitaire</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="ui-light">
+  <main class="app">
+    <header class="topbar">
+      <h1>Spider Solitaire</h1>
+      <div class="stats">
+        <span>Moves <b id="moves">0</b></span>
+        <span>Sets <b id="completed">0</b>/8</span>
+      </div>
+    </header>
+
+    <div class="controls">
+      <label>
+        Suits
+        <select id="suits">
+          <option value="1">1 suit</option>
+          <option value="2" selected>2 suits</option>
+          <option value="4">4 suits</option>
+        </select>
+      </label>
+      <button id="new-game" type="button">New game</button>
+      <button id="undo" type="button" disabled>Undo</button>
+      <button id="settings-btn" type="button">Settings</button>
+    </div>
+
+    <div class="table">
+      <div id="board" class="board face-classic back-blue" aria-label="Spider solitaire tableau"></div>
+    </div>
+
+    <div class="bottom">
+      <button id="stock" class="stock" type="button" aria-label="Deal a row from stock"></button>
+      <p id="status" class="status" aria-live="polite"></p>
+    </div>
+  </main>
+
+  <dialog id="settings" class="settings">
+    <form method="dialog">
+      <h2>Settings</h2>
+      <label>
+        Card back
+        <select id="back-style">
+          <option value="blue">Blue lattice</option>
+          <option value="red">Red classic</option>
+          <option value="green">Green stripes</option>
+          <option value="purple">Purple diamonds</option>
+        </select>
+      </label>
+      <label>
+        Card style
+        <select id="face-style">
+          <option value="classic">Classic</option>
+          <option value="large">Large numbers</option>
+          <option value="minimal">Minimal</option>
+        </select>
+      </label>
+      <label>
+        Interface
+        <select id="ui-theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </label>
+      <label>
+        Background color
+        <input type="color" id="bg-color" value="#1d5c3a" />
+      </label>
+      <div class="swatches" id="swatches">
+        <button type="button" data-bg="#1d5c3a" style="background:#1d5c3a" aria-label="Felt green"></button>
+        <button type="button" data-bg="#1c3557" style="background:#1c3557" aria-label="Navy"></button>
+        <button type="button" data-bg="#5a1f2b" style="background:#5a1f2b" aria-label="Burgundy"></button>
+        <button type="button" data-bg="#3b3b3b" style="background:#3b3b3b" aria-label="Charcoal"></button>
+        <button type="button" data-bg="#d8c7a1" style="background:#d8c7a1" aria-label="Sand"></button>
+      </div>
+      <menu>
+        <button value="close" class="primary">Done</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <div id="drag-layer" class="drag-layer"></div>
+  <div id="deal-layer" class="deal-layer" aria-hidden="true"></div>
+
+  <script src="spider-core.js"></script>
+  <script src="seeds.js"></script>
+  <script src="deal-anim.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

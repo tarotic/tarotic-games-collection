@@ -4,7 +4,7 @@
   "private": true,
   "description": "A collection of games to play locally",
   "scripts": {
-    "test": "node --test games/sudoku/"
+    "test": "node --test games/sudoku/ games/spider/"
   },
   "license": "UNLICENSED"
 }
