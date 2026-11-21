@@ -1,0 +1,273 @@
+:root {
+  --bg: #1d5c3a;
+  --panel: rgba(255, 255, 255, 0.14);
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.78);
+  --button: #ffffff;
+  --button-text: #1d2a22;
+  /* Card width shrinks only when the viewport cannot fit 10 columns at 84px.
+     1000px = .app max-width; 96px = 24px .app padding + 9 x 8px gaps;
+     20px = allowance for a classic vertical scrollbar (vw includes it). */
+  --card-w: min(84px, calc((min(100vw - 20px, 1000px) - 96px) / 10));
+  --card-h: calc(var(--card-w) * 118 / 84);
+  --off-down: 12px;
+  --off-up: 28px;
+  --slot-line: rgba(255, 255, 255, 0.18);
+}
+
+/* Interface themes */
+body.ui-dark {
+  --panel: rgba(0, 0, 0, 0.35);
+  --text: #f2f2f2;
+  --muted: rgba(255, 255, 255, 0.7);
+  --button: #2b2f33;
+  --button-text: #f2f2f2;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background-color 0.2s ease;
+}
+
+.app {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px 12px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+h1 { margin: 0; font-size: 1.6rem; font-weight: 600; }
+
+.stats { display: flex; gap: 16px; color: var(--muted); font-size: 0.95rem; }
+.stats b { color: var(--text); }
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  background: var(--panel);
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.controls label { display: flex; align-items: center; gap: 6px; font-size: 0.95rem; }
+
+button, select {
+  font: inherit;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: var(--button);
+  color: var(--button-text);
+  cursor: pointer;
+}
+button:hover:not(:disabled) { filter: brightness(1.05); }
+button:disabled { opacity: 0.45; cursor: default; }
+button:focus-visible, select:focus-visible { outline: 3px solid #ffd54a; outline-offset: 2px; }
+
+/* ---------- Tableau ---------- */
+.table { overflow-x: auto; padding-bottom: 8px; }
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(10, var(--card-w));
+  gap: 8px;
+  justify-content: center;
+  user-select: none;
+  touch-action: none;
+}
+
+.column {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(var(--card-h) + 20px);
+  border-radius: 10px;
+  border: 2px dashed transparent;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  padding-bottom: 6px;
+}
+.column.drop-ok { border-color: rgba(255, 255, 255, 0.7); background: rgba(255, 255, 255, 0.08); }
+.column.drop-bad { border-color: rgba(255, 90, 90, 0.7); }
+
+/* ---------- Cards ---------- */
+.card {
+  width: var(--card-w);
+  height: var(--card-h);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  position: relative;
+  background: #fff;
+  color: #222;
+  font-weight: 700;
+  display: block;
+}
+.card.up { cursor: grab; }
+.card.up.red { color: #c62828; }
+.card.up.black { color: #1a1a1a; }
+.card.hidden-drag { visibility: hidden; }
+
+.card.up {
+  background: linear-gradient(180deg, #ffffff 0%, #f6f6f6 100%);
+  border: 1px solid #b9b9b9;
+}
+.card .corner {
+  position: absolute;
+  line-height: 1;
+  font-size: 15px;
+  text-align: center;
+  width: 18px;
+}
+.card .corner.tl { top: 5px; left: 5px; }
+.card .corner.br { bottom: 5px; right: 5px; transform: rotate(180deg); }
+.card .corner .suit { display: block; font-size: 13px; }
+.card .center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  pointer-events: none;
+}
+
+/* Face styles: classic shows the suit pip, large shows the rank, minimal shows only the pip */
+.card .big { display: none; }
+.face-large .card .big { display: block; font-size: 40px; }
+.face-large .card .pip { display: none; }
+.face-large .card .center { font-size: 40px; }
+.face-large .card .corner { font-size: 19px; }
+.face-large .card .corner .suit { font-size: 15px; }
+.face-minimal .card .corner { display: none; }
+.face-minimal .card .center { font-size: 36px; font-weight: 400; }
+.face-minimal .card.up { background: #fdfbf4; }
+
+/* Face-down backs */
+.card.down { border: 1px solid rgba(0, 0, 0, 0.35); }
+
+.back-blue .card.down {
+  background-color: #1d4e89;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.14) 0 2px, transparent 2px 9px),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,0.14) 0 2px, transparent 2px 9px);
+  border: 4px solid #f4f4f4;
+}
+.back-red .card.down {
+  background: radial-gradient(circle at 50% 50%, #ffd3d3 0 12%, #b71c1c 13% 100%);
+  border: 4px solid #fff;
+}
+.back-green .card.down {
+  background-color: #2e7d32;
+  background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.22) 0 6px, transparent 6px 14px);
+  border: 4px solid #e8f5e9;
+}
+.back-purple .card.down {
+  background-color: #5e35b1;
+  background-image:
+    linear-gradient(45deg, rgba(255,255,255,0.18) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255,255,255,0.18) 25%, transparent 25%);
+  background-size: 14px 14px;
+  border: 4px solid #ede7f6;
+}
+
+/* Vertical spacing: set by app.js. Each card overlaps the one above it;
+   face-down cards overlap tightly, face-up cards show their index. */
+.card.after-down { margin-top: calc(var(--off-down) - var(--card-h)); }
+.card.after-up { margin-top: calc(var(--off-up) - var(--card-h)); }
+
+/* Empty column placeholder */
+.column.empty::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: var(--card-h);
+  border-radius: 8px;
+  border: 2px dashed var(--slot-line);
+}
+
+/* ---------- Stock / status ---------- */
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.stock {
+  width: var(--card-w);
+  height: var(--card-h);
+  padding: 0;
+  border-radius: 8px;
+  border: 3px solid #f4f4f4;
+  background-color: #1d4e89;
+  background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.14) 0 2px, transparent 2px 9px);
+  position: relative;
+}
+.stock:disabled { opacity: 0.3; }
+.stock .count {
+  position: absolute;
+  left: 0; right: 0; bottom: -22px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.stock.back-red { background: radial-gradient(circle, #ffd3d3 0 12%, #b71c1c 13% 100%); border-color: #fff; }
+.stock.back-green { background-color: #2e7d32; background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.22) 0 6px, transparent 6px 14px); border-color: #e8f5e9; }
+.stock.back-purple { background-color: #5e35b1; background-image: linear-gradient(45deg, rgba(255,255,255,0.18) 25%, transparent 25%), linear-gradient(-45deg, rgba(255,255,255,0.18) 25%, transparent 25%); background-size: 14px 14px; border-color: #ede7f6; }
+
+.status {
+  margin: 14px 0 0;
+  min-height: 1.4em;
+  color: var(--muted);
+  text-align: center;
+}
+.status.win { color: #ffd54a; font-weight: 600; }
+
+/* ---------- Dragging ---------- */
+.drag-layer { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+.ghost { position: fixed; pointer-events: none; }
+.ghost .card { position: absolute; left: 0; }
+
+/* ---------- Settings dialog ---------- */
+.settings {
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  width: min(380px, 92vw);
+  background: #fff;
+  color: #222;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+.settings::backdrop { background: rgba(0, 0, 0, 0.45); }
+.settings form { padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; }
+.settings h2 { margin: 0; font-size: 1.2rem; }
+.settings label { display: flex; flex-direction: column; gap: 4px; font-size: 0.9rem; }
+.settings select, .settings input[type="color"] { width: 100%; height: 34px; }
+.settings .swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+.settings .swatches button { width: 36px; height: 36px; padding: 0; border-radius: 50%; border: 2px solid #ccc; }
+.settings menu { margin: 4px 0 0; padding: 0; display: flex; justify-content: flex-end; }
+.settings .primary { background: #2f6fb0; color: #fff; }
+
+@media (max-width: 600px) {
+  :root { --card-w: 62px; --card-h: 88px; --off-down: 9px; --off-up: 19px; }
+  .card .center { font-size: 22px; }
+  .card .corner { font-size: 12px; }
+}
