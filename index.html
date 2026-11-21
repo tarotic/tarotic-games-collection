@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tarotic Games Collection</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: #1d5c3a;
+      color: #fff;
+    }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 16px;
+    }
+    h1 { margin: 0 0 8px; font-size: 2rem; font-weight: 600; }
+    p { margin: 0 0 28px; color: rgba(255, 255, 255, 0.8); }
+    ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+    a.game {
+      display: block;
+      padding: 18px 20px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+      text-decoration: none;
+    }
+    a.game:hover, a.game:focus-visible { background: rgba(255, 255, 255, 0.24); outline: none; }
+    a.game strong { display: block; font-size: 1.2rem; margin-bottom: 4px; }
+    a.game span { color: rgba(255, 255, 255, 0.8); font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Tarotic Games Collection</h1>
+    <p>Pick a game to play. Everything runs in your browser.</p>
+    <ul>
+      <li>
+        <a class="game" href="games/spider/index.html">
+          <strong>Spider Solitaire</strong>
+          <span>1, 2 or 4 suits. Every deal is winnable.</span>
+        </a>
+      </li>
+      <li>
+        <a class="game" href="games/sudoku/index.html">
+          <strong>Sudoku</strong>
+          <span>Easy, medium or hard puzzles with a unique solution.</span>
+        </a>
+      </li>
+    </ul>
+  </main>
+</body>
+</html>

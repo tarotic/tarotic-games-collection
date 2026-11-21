@@ -284,3 +284,12 @@ button:focus-visible, select:focus-visible { outline: 3px solid #ffd54a; outline
   .card .center { font-size: 22px; }
   .card .corner { font-size: 12px; }
 }
+
+/* Link back to the home page */
+.back-link {
+  align-self: flex-start;
+  color: inherit;
+  opacity: 0.85;
+  font-size: 0.95rem;
+}
+.back-link:hover { opacity: 1; }
