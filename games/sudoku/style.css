@@ -163,3 +163,12 @@ select:focus-visible {
   color: #2e7d32;
   font-weight: 600;
 }
+
+/* Link back to the home page */
+.back-link {
+  align-self: flex-start;
+  color: inherit;
+  opacity: 0.85;
+  font-size: 0.95rem;
+}
+.back-link:hover { opacity: 1; }
