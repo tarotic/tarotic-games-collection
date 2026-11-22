@@ -221,3 +221,9 @@ button:not(:disabled):hover, button:not(:disabled):focus-visible { filter: brigh
   #word-input.bad, .tap-word.bad { animation: bad-flash 0.7s ease-out; }
 }
 .bottom-mode { margin-top: 18px; margin-bottom: 18px; }
+
+.top-controls { margin: 0 0 16px; }
+.controls button.give-up {
+  background: var(--bad-bg);
+  color: #fff;
+}

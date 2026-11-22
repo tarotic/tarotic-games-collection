@@ -132,8 +132,10 @@
   function renderControls() {
     const playing = state.phase === "playing";
     els.input.disabled = !(playing && state.mode === "type");
-    els.start.disabled = state.phase !== "ready";
-    els.start.textContent = state.phase === "over" ? "Round over" : state.phase === "playing" ? "Round in progress" : "Start round";
+    // The main button: Start round, then Give up during a round, then Round over (disabled).
+    els.start.disabled = state.phase === "over";
+    els.start.classList.toggle("give-up", playing);
+    els.start.textContent = state.phase === "over" ? "Round over" : playing ? "Give up" : "Start round";
     els.timerBox.classList.toggle("warn", playing && state.endAt - Date.now() <= 30000);
     renderModes();
     renderTapWord();
@@ -189,6 +191,17 @@
     if (state.mode === "type") els.input.focus();
   }
 
+  // The main button during a round: give up, which ends the round now.
+  function giveUp() {
+    if (state.phase !== "playing") return;
+    endRound("You gave up. Final score: " + state.score + ".");
+  }
+
+  function onMainButton() {
+    if (state.phase === "ready") startRound();
+    else if (state.phase === "playing") giveUp();
+  }
+
   function stopTimer() {
     if (state.timerId !== null) {
       clearInterval(state.timerId);
@@ -196,7 +209,8 @@
     }
   }
 
-  function endRound() {
+  // Ends the round. `message` is the status line; time running out is the default.
+  function endRound(message) {
     stopTimer();
     state.phase = "over";
     state.path = [];
@@ -222,7 +236,7 @@
     els.missedSummary.textContent =
       "You found " + foundWords.size + " of " + state.possible.size + " possible words. Final score: " + state.score + ".";
     els.missedSection.hidden = false;
-    setStatus("Time is up. Final score: " + state.score + ".");
+    setStatus(message || "Time is up. Final score: " + state.score + ".");
   }
 
   // Tap mode: add a tile to the word being built, if it touches the last one.
@@ -311,7 +325,7 @@
 
   els.form.addEventListener("submit", submitWord);
   els.clear.addEventListener("click", clearTaps);
-  els.start.addEventListener("click", startRound);
+  els.start.addEventListener("click", onMainButton);
   els.newBoard.addEventListener("click", newBoard);
   els.modeType.addEventListener("click", function () { setMode("type"); });
   els.modeTap.addEventListener("click", function () { setMode("tap"); });
