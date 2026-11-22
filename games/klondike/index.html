@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Klondike Solitaire</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top-bar">
+    <a class="back" href="../../index.html">&larr; All games</a>
+    <h1>Klondike Solitaire</h1>
+  </header>
+
+  <section class="controls" aria-label="Game controls">
+    <button id="new" type="button">New deal</button>
+    <label>Deal # <input id="seed" type="number" min="0" step="1" inputmode="numeric" /></label>
+    <button id="go" type="button">Play deal</button>
+    <label>Draw
+      <select id="draw">
+        <option value="1" selected>1</option>
+        <option value="3">3</option>
+      </select>
+    </label>
+    <button id="undo" type="button" disabled>Undo</button>
+    <button id="auto" type="button" hidden>Auto-complete</button>
+    <span class="stat" id="deal-num"></span>
+    <span class="stat" id="moves">Moves: 0</span>
+    <span class="stat" id="time">Time: 0:00</span>
+  </section>
+
+  <p id="message" role="status"></p>
+
+  <main id="board">
+    <div class="top-row">
+      <div id="stock" class="slot" title="Click to draw"></div>
+      <div id="waste" class="slot"></div>
+      <div class="gap"></div>
+      <div class="slot foundation" data-drop="foundation" data-suit="S"></div>
+      <div class="slot foundation" data-drop="foundation" data-suit="H"></div>
+      <div class="slot foundation" data-drop="foundation" data-suit="D"></div>
+      <div class="slot foundation" data-drop="foundation" data-suit="C"></div>
+    </div>
+    <div id="tableau" class="tableau"></div>
+  </main>
+
+  <div id="drag-layer"></div>
+
+  <script src="klondike-core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
