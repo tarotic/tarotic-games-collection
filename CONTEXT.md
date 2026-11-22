@@ -50,3 +50,16 @@ A glossary of the terms used across the games in the collection. Implementation 
 - **Solve**: every cipher letter has a correct guess, confirmed by Check. Shows the quote's author.
 - **Score**: starts at 1,000 points and drops by one point per second from the first keystroke or click, floored at zero, less 25 points for each hint and each penalised Check.
 - **Best score**: the highest score a player has achieved for a quote, kept per browser.
+
+## Golf
+
+- **Grid**: the six cards in front of the player, laid out as two rows of three. Each **column** is a top and a bottom card.
+- **Column**: one vertical pair of grid cards.
+- **Pair**: the two cards in one column that share a rank. Suits do not matter. A pair scores 0.
+- **Stock**: the face-down cards not yet drawn. Empties into a new stock from the discard pile.
+- **Discard pile**: the face-up cards discarded so far. Only its top card can be drawn.
+- **Hand**: the one card drawn during a turn, before it is placed or discarded.
+- **Turn**: one draw, followed by either a swap into the grid or a discard and a flip.
+- **Swap**: placing the card in hand into a grid position. The card it replaces goes face up onto the discard pile.
+- **Round**: one deal of the grid, ending once all six grid cards are face up.
+- **Deal number**: the number that fixes a game's shuffles, so the same game can be replayed.

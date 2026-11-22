@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Golf (solo)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top-bar">
+    <a class="back" href="../../index.html">&larr; All games</a>
+    <h1>Golf (solo)</h1>
+  </header>
+
+  <section class="controls" aria-label="Game controls">
+    <button id="new" type="button">New game</button>
+    <label>Deal # <input id="seed" type="number" min="0" step="1" inputmode="numeric" /></label>
+    <button id="go" type="button">Play deal</button>
+    <span class="stat" id="deal-num"></span>
+    <span class="stat" id="round">Round 1 of 9</span>
+    <span class="stat" id="total">Total: 0</span>
+  </section>
+
+  <p id="message" role="status"></p>
+
+  <main id="board">
+    <div class="piles">
+      <div class="pile">
+        <span class="label">Stock</span>
+        <button id="stock" class="card" type="button" title="Draw from the stock"></button>
+      </div>
+      <div class="pile">
+        <span class="label">Discard</span>
+        <div id="discard" class="card-slot"></div>
+      </div>
+      <div class="pile">
+        <span class="label">In hand</span>
+        <div id="hand" class="card-slot"></div>
+        <button id="discard-drawn" type="button" disabled>Discard it</button>
+      </div>
+    </div>
+
+    <div id="grid" class="grid" aria-label="Your grid"></div>
+
+    <div id="summary" class="summary" hidden>
+      <p id="summary-text"></p>
+      <button id="next" type="button" hidden>Next round</button>
+    </div>
+
+    <ol id="scores" class="scores" aria-label="Round scores"></ol>
+  </main>
+
+  <script src="golf-core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
