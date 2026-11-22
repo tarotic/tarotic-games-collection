@@ -8,6 +8,7 @@ A personal collection of games I like to play, built with help from Claude agent
 |------|--------|----------|
 | Sudoku | Playable locally (browser) | [`games/sudoku`](games/sudoku) |
 | Spider Solitaire | Playable locally (browser) | [`games/spider`](games/spider) |
+| Boggle (solo) | Playable locally (browser) | [`games/boggle`](games/boggle) |
 
 ## Running Spider Solitaire locally
 
@@ -41,6 +42,20 @@ Every generated puzzle has exactly one solution.
 
 Controls: click a cell and type 1-9 (or use the number pad), Backspace/0 to clear, arrow keys to move. **Check** highlights wrong numbers in red.
 
+## Running Boggle (solo) locally
+
+No build step or server is needed. Open the file in a browser:
+
+```
+games/boggle/index.html
+```
+
+Press **Start round** to start the three-minute timer and roll the board. Type a word and press Enter. A word counts if it is in the dictionary, at least 3 letters long, and can be traced through touching letters (including diagonals) without reusing a letter cube. **Qu** is one cube and spells "qu". Points follow classic Boggle: 3-4 letters 1 point, 5 letters 2, 6 letters 3, 7 letters 5, 8 or more 11.
+
+When time runs out, the round shows every word you missed. **New board** rolls a fresh board at any time.
+
+The dictionary is `games/boggle/words.js`, built from the public-domain ENABLE word list. To rebuild it: `node games/boggle/build-words.js <wordlist.txt>`.
+
 ## Running tests
 
 Requires Node.js 18+.
@@ -48,3 +63,5 @@ Requires Node.js 18+.
 ```
 npm test
 ```
+
+The test script lists each test file by name, which works on any Node version.
