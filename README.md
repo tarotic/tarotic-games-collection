@@ -8,6 +8,7 @@ A personal collection of games I like to play, built with help from Claude agent
 |------|--------|----------|
 | Sudoku | Playable locally (browser) | [`games/sudoku`](games/sudoku) |
 | Spider Solitaire | Playable locally (browser) | [`games/spider`](games/spider) |
+| Yahtzee | Playable locally (browser) | [`games/yahtzee`](games/yahtzee) |
 
 ## Running Spider Solitaire locally
 
@@ -40,6 +41,16 @@ Pick a difficulty and click **New game**. Difficulty is set by the number of clu
 Every generated puzzle has exactly one solution.
 
 Controls: click a cell and type 1-9 (or use the number pad), Backspace/0 to clear, arrow keys to move. **Check** highlights wrong numbers in red.
+
+## Running Yahtzee locally
+
+No build step or server is needed. Open the file in a browser:
+
+```
+games/yahtzee/index.html
+```
+
+Click **Roll** to start a turn. You get up to three rolls per turn. Click a die to hold it between rolls. When you are happy with the dice, click a score in the scorecard. The standard rules apply: the upper bonus, the extra Yahtzee bonus and the joker. The table is green and the dice are red. **Light mode** changes the table tone and is saved in the browser.
 
 ## Running tests
 
