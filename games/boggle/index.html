@@ -19,12 +19,6 @@
 
     <div id="board" class="board" role="grid" aria-label="Boggle board"></div>
 
-    <div class="mode" role="group" aria-label="How to enter words">
-      <span class="mode-label">Enter words by</span>
-      <button id="mode-type" type="button" class="mode-btn" aria-pressed="true">Typing</button>
-      <button id="mode-tap" type="button" class="mode-btn" aria-pressed="false">Tapping</button>
-    </div>
-
     <form id="word-form" class="word-form" autocomplete="off">
       <div id="type-panel">
         <label for="word-input">Type a word</label>
@@ -46,6 +40,12 @@
     </div>
 
     <p id="status" class="status" aria-live="polite">Press Start round, then type or tap words you can trace through touching letters.</p>
+
+    <div class="mode bottom-mode" role="group" aria-label="How to enter words">
+      <span class="mode-label">Enter words by</span>
+      <button id="mode-type" type="button" class="mode-btn" aria-pressed="true">Typing</button>
+      <button id="mode-tap" type="button" class="mode-btn" aria-pressed="false">Tapping</button>
+    </div>
 
     <section id="found-section" class="panel" hidden>
       <h2>Your words</h2>
