@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minesweeper</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top-bar">
+    <a class="back" href="../../index.html">&larr; All games</a>
+    <h1>Minesweeper</h1>
+  </header>
+
+  <section class="controls" aria-label="Game controls">
+    <label>Difficulty
+      <select id="difficulty">
+        <option value="beginner">Beginner (9×9, 10 mines)</option>
+        <option value="intermediate">Intermediate (16×16, 40 mines)</option>
+        <option value="expert">Expert (30×16, 99 mines)</option>
+      </select>
+    </label>
+    <button id="new" type="button">New game</button>
+    <label>Deal # <input id="seed" type="number" min="0" step="1" inputmode="numeric" /></label>
+    <button id="go" type="button">Play deal</button>
+    <span class="stat" id="mines">Mines: 0</span>
+    <span class="stat" id="timer">Time: 0</span>
+    <span class="stat" id="best"></span>
+  </section>
+
+  <p id="message" role="status"></p>
+
+  <main id="board-wrap">
+    <div id="board" class="board" aria-label="Minesweeper board"></div>
+  </main>
+
+  <script src="minesweeper-core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
