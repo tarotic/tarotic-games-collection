@@ -50,10 +50,10 @@ No build step or server is needed. Open the file in a browser:
 games/boggle/index.html
 ```
 
-Press **Start round** to start the three-minute timer. Choose how to enter words with the **Typing** / **Tapping** switch:
+Press **Start round** to start the three-minute timer. Choose how to enter words with the **Tapping** / **Typing** switch (Tapping is the default):
 
-- **Typing**: type a word and press Enter.
-- **Tapping**: tap touching tiles to build the word. Each new tile must touch the last one and not be used already. **Clear** empties the word; Enter submits it. Swiping is not yet supported. A word counts if it is in the dictionary, at least 3 letters long, and can be traced through touching letters (including diagonals) without reusing a letter cube. **Qu** is one cube and spells "qu". Points follow classic Boggle: 3-4 letters 1 point, 5 letters 2, 6 letters 3, 7 letters 5, 8 or more 11.
+- **Tapping**: tap touching tiles to build the word. Each new tile must touch the last one and not be used already. **Clear** empties the word; Enter submits it. Swiping is not yet supported.
+- **Typing**: type a word and press Enter. A word counts if it is in the dictionary, at least 3 letters long, and can be traced through touching letters (including diagonals) without reusing a letter cube. **Qu** is one cube and spells "qu". Points follow classic Boggle: 3-4 letters 1 point, 5 letters 2, 6 letters 3, 7 letters 5, 8 or more 11.
 
 When time runs out, the round shows every word you missed. **New board** rolls a fresh board at any time.
 

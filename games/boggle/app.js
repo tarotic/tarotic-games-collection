@@ -36,10 +36,10 @@
   };
 
   // phase: "ready" (board shown, not started), "playing", "over"
-  // mode: "type" or "tap"
+  // mode: "tap" (default) or "type"
   const state = {
     phase: "ready",
-    mode: "type",
+    mode: "tap",
     board: [],
     tiles: [], // tile elements, same order as board
     path: [], // tapped cell indices, in tap mode
