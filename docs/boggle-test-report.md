@@ -28,6 +28,27 @@ Boggle tests (`games/boggle/boggle-core.test.js`), 14 of 14 pass:
 
 Two earlier failures were caused by my test fixtures, not the engine: the dictionary included "zzz", which is traceable on a board of filler z cells. Both fixtures were corrected and no expected result was changed to match the output.
 
+## Tapping mode (second increment)
+
+Added: a Typing / Tapping switch. Tapping builds the word from touching tiles, with Clear and Enter. Swiping is not included.
+
+Engine tests added (`canTapNext`, `pathText`): 16 of 16 pass in `boggle-core.test.js`.
+
+Headless browser check (phone viewport, Chromium): 
+
+| Check | Result |
+|---|---|
+| Tiles are disabled in typing mode before a round, enabled in tapping mode during one | PASS |
+| Clear is shown only in tapping mode; typing panel hidden in tapping mode | PASS |
+| Tapping a tile that does not touch the last one is refused with a message | PASS |
+| Tracing a real word on the board builds the word on screen ("fetid") | PASS |
+| Clear empties the word and disables Clear | PASS |
+| Tapping the word again and pressing Enter scores it (+2) and empties the tap word | PASS |
+| Switching back to typing re-enables the input and hides Clear | PASS |
+| No horizontal scroll at 390 px, no console errors | PASS |
+
+Manual (NOT RUN): tapping on a real phone and in Chrome/Edge on Windows.
+
 ## Pre-existing issue found and fixed
 
 The old `npm test` script passed directory arguments (`games/sudoku/ games/spider/`). Node 22 rejects them with `Cannot find module`, so the script failed before running any test. The individual spider and sudoku test files passed (33 of 33) when run by name. The script now lists the test files by name, which works on any Node version.

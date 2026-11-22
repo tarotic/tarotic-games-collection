@@ -63,27 +63,81 @@ h2 { margin: 0 0 10px; font-size: 1.1rem; font-weight: 600; }
 .tile {
   width: var(--tile-size);
   height: var(--tile-size);
+  padding: 0;
+  border: none;
   border-radius: 10px;
   background: var(--tile);
   color: var(--tile-ink);
   display: grid;
   place-items: center;
+  position: relative;
+  font: inherit;
   font-size: calc(var(--tile-size) * 0.46);
   font-weight: 700;
-  text-transform: uppercase;
   box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
-.tile.blank { background: transparent; box-shadow: none; }
+.tile:disabled { opacity: 1; cursor: default; }
+.tile:not(:disabled) { cursor: pointer; }
+.tile:not(:disabled):hover { filter: brightness(1.04); }
+.tile.picked {
+  background: var(--accent);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+  transform: translateY(2px);
+}
+.tile.picked::after {
+  content: attr(data-order);
+  position: absolute;
+  top: 3px;
+  right: 6px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--tile-ink);
+}
 
-.word-form label {
+.mode {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+.mode-label { color: var(--muted); font-size: 0.9rem; margin-right: 4px; }
+.mode-btn {
+  background: var(--panel);
+  color: var(--text);
+  padding: 8px 14px;
+  border: 2px solid transparent;
+}
+.mode-btn.active { background: var(--accent); color: var(--tile-ink); border-color: var(--accent); }
+.mode-btn[aria-pressed="true"] { font-weight: 700; }
+
+.word-form label,
+.label-text {
   display: block;
   font-size: 0.9rem;
   color: var(--muted);
   margin-bottom: 6px;
 }
-.word-row { display: flex; gap: 8px; }
-.word-row input {
+.tap-word {
+  min-height: 2.6em;
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--tile);
+  color: var(--tile-ink);
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
+}
+.word-row { display: flex; gap: 8px; margin-top: 8px; }
+.word-row > button { flex: 1; }
+.word-row > button[hidden] { display: none; }
+#word-input {
   flex: 1;
   min-width: 0;
   padding: 12px 14px;
@@ -94,7 +148,8 @@ h2 { margin: 0 0 10px; font-size: 1.1rem; font-weight: 600; }
   color: var(--tile-ink);
   text-transform: lowercase;
 }
-.word-row input:focus-visible { outline: none; border-color: var(--accent); }
+#word-input:focus-visible { outline: none; border-color: var(--accent); }
+#word-input:disabled { opacity: 0.6; }
 
 button {
   font: inherit;
@@ -111,7 +166,8 @@ button:not(:disabled):hover, button:not(:disabled):focus-visible { filter: brigh
 
 .controls { display: flex; gap: 10px; margin: 14px 0 6px; }
 .controls button { flex: 1; }
-.controls button#new-board {
+.controls button.secondary,
+.word-row button.secondary {
   background: var(--panel);
   color: var(--text);
 }

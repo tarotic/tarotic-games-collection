@@ -75,6 +75,22 @@ test("findPath: the Qu face spells qu", () => {
   assert.equal(Boggle.findPath(board, "qit"), null);
 });
 
+test("canTapNext: first tap anywhere, then only unused touching cells", () => {
+  assert.equal(Boggle.canTapNext([], 9), true);
+  assert.equal(Boggle.canTapNext([0], 1), true); // touching, to the right
+  assert.equal(Boggle.canTapNext([0], 5), true); // touching, diagonal
+  assert.equal(Boggle.canTapNext([0], 2), false); // two cells away
+  assert.equal(Boggle.canTapNext([0, 1], 0), false); // already used
+  assert.equal(Boggle.canTapNext([0, 1], 2), true);
+  assert.equal(Boggle.canTapNext([0, 1], 16), false); // off the board
+});
+
+test("pathText: joins tapped faces, with Qu as qu", () => {
+  const board = boardWith({ 0: "qu", 1: "i", 2: "t" });
+  assert.equal(Boggle.pathText(board, [0, 1, 2]), "quit");
+  assert.equal(Boggle.pathText(board, []), "");
+});
+
 test("scoreWord: classic Boggle points, words under 3 letters score 0", () => {
   assert.equal(Boggle.scoreWord("ab"), 0);
   assert.equal(Boggle.scoreWord("cat"), 1);

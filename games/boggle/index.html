@@ -19,20 +19,33 @@
 
     <div id="board" class="board" role="grid" aria-label="Boggle board"></div>
 
+    <div class="mode" role="group" aria-label="How to enter words">
+      <span class="mode-label">Enter words by</span>
+      <button id="mode-type" type="button" class="mode-btn" aria-pressed="true">Typing</button>
+      <button id="mode-tap" type="button" class="mode-btn" aria-pressed="false">Tapping</button>
+    </div>
+
     <form id="word-form" class="word-form" autocomplete="off">
-      <label for="word-input">Type a word</label>
-      <div class="word-row">
+      <div id="type-panel">
+        <label for="word-input">Type a word</label>
         <input id="word-input" type="text" inputmode="text" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="16" disabled />
+      </div>
+      <div id="tap-panel" hidden>
+        <span class="label-text">Tap touching tiles to build a word</span>
+        <div id="tap-word" class="tap-word" aria-live="polite"></div>
+      </div>
+      <div class="word-row">
+        <button id="clear" type="button" class="secondary" hidden disabled>Clear</button>
         <button id="submit" type="submit" disabled>Enter</button>
       </div>
     </form>
 
     <div class="controls">
       <button id="start" type="button">Start round</button>
-      <button id="new-board" type="button">New board</button>
+      <button id="new-board" type="button" class="secondary">New board</button>
     </div>
 
-    <p id="status" class="status" aria-live="polite">Press Start round, then type words you can trace through touching letters.</p>
+    <p id="status" class="status" aria-live="polite">Press Start round, then type or tap words you can trace through touching letters.</p>
 
     <section id="found-section" class="panel" hidden>
       <h2>Your words</h2>

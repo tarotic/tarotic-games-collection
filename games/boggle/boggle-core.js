@@ -142,6 +142,20 @@
     return { ok: true, word: word, points: scoreWord(word) };
   }
 
+  // Tap mode: can `cell` be added to a tapped path? It must not be in the path
+  // already, and must touch the last cell in the path (or be the first cell).
+  function canTapNext(path, cell) {
+    if (cell < 0 || cell >= CELLS) return false;
+    if (path.length === 0) return true;
+    if (path.indexOf(cell) !== -1) return false;
+    return NEIGHBORS[path[path.length - 1]].indexOf(cell) !== -1;
+  }
+
+  // The letters spelled by a tapped path, e.g. "qu" + "i" + "t" = "quit".
+  function pathText(board, path) {
+    return path.map((cell) => board[cell]).join("");
+  }
+
   // Finds every dictionary word on the board. Returns a Set of words.
   function solveBoard(board, dict) {
     const found = new Set();
@@ -177,6 +191,8 @@
     rollBoard: rollBoard,
     neighborsOf: neighborsOf,
     findPath: findPath,
+    canTapNext: canTapNext,
+    pathText: pathText,
     scoreWord: scoreWord,
     createDictionary: createDictionary,
     checkWord: checkWord,
