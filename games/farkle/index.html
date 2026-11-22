@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Farkle</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="scheme-felt">
+  <main class="felt">
+    <header class="top">
+      <a class="back" href="../../index.html">&larr; All games</a>
+      <h1>Farkle</h1>
+      <div class="top-buttons">
+        <label class="scheme-picker">
+          <span>Colors</span>
+          <select id="scheme" aria-label="Color scheme">
+            <option value="felt">Felt Green</option>
+            <option value="night-owl">Night Owl</option>
+            <option value="gruvbox">Gruvbox</option>
+            <option value="noir">Noir</option>
+          </select>
+        </label>
+        <button type="button" id="new-game" class="btn ghost" hidden>New game</button>
+      </div>
+    </header>
+
+    <section id="setup" class="setup" aria-label="Players">
+      <p class="setup-text">Pick how many people are playing. First to 10,000 points wins.</p>
+      <div class="count-group" role="group" aria-label="Number of players">
+        <button type="button" class="btn ghost count-option" data-count="2">2 players</button>
+        <button type="button" class="btn ghost count-option" data-count="3">3 players</button>
+        <button type="button" class="btn ghost count-option" data-count="4">4 players</button>
+      </div>
+      <button type="button" id="start" class="btn primary">Start game</button>
+    </section>
+
+    <section id="play" class="play" hidden>
+      <ul id="board" class="board" aria-label="Scoreboard"></ul>
+
+      <section class="table" aria-label="Dice table">
+        <p id="turn-label" class="turn-label"></p>
+        <div class="dice" id="dice" aria-live="polite"></div>
+        <div class="kept-wrap">
+          <span class="kept-label">Kept this turn</span>
+          <div class="kept" id="kept" aria-label="Kept dice"></div>
+        </div>
+        <div class="controls">
+          <button type="button" id="roll" class="btn primary">Roll</button>
+          <button type="button" id="bank" class="btn bank">Bank</button>
+        </div>
+        <p id="status" class="status"></p>
+      </section>
+    </section>
+
+    <section id="winner" class="winner" hidden aria-live="polite">
+      <h2 id="winner-text"></h2>
+      <button type="button" id="play-again" class="btn primary">Play again</button>
+    </section>
+  </main>
+
+  <script src="farkle-core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
