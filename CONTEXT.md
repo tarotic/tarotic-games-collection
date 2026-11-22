@@ -13,6 +13,18 @@ A glossary of the terms used across the games in the collection. Implementation 
 - **Yahtzee**: five matching dice, scored in the Yahtzee category.
 - **Joker**: the rule that lets a further Yahtzee score in another category once the Yahtzee category has been filled with 50.
 
+## Klondike
+
+- **Tableau**: the seven columns of cards in play. Each column is built down in alternating colours.
+- **Foundation**: one of four piles, one per suit, built up from Ace to King.
+- **Stock**: the face-down cards that have not yet been drawn.
+- **Waste**: the face-up cards drawn from the stock. Only its top card can be played.
+- **Draw count**: how many cards each stock click turns over to the waste, either 1 or 3.
+- **Redeal**: turning the waste back over into the stock once the stock is empty. Unlimited.
+- **Run**: a sequence of face-up tableau cards, each one rank lower and the opposite colour of the one above, that moves as one unit.
+- **Deal number**: the number that fixes which shuffle a game uses, so the same game can be replayed.
+- **Auto-complete**: moving every remaining card to the foundations, offered once the stock is empty and every tableau card is face up.
+
 ## Farkle
 
 - **Farkle turn**: one player's run of rolls, ending when they bank or roll a Farkle. Not to be confused with the Yahtzee **Turn**.
