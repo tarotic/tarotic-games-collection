@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cryptogram</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="top">
+      <a class="back" href="../../index.html">&larr; All games</a>
+      <h1>Cryptogram</h1>
+      <button type="button" id="new-puzzle" class="btn ghost">New puzzle</button>
+    </header>
+
+    <p class="intro">Each letter stands for another letter. Click a letter or use the keyboard to guess. Press Check to see which guesses are wrong.</p>
+
+    <section class="stats" aria-label="Game status">
+      <div><span class="label">Score</span><strong id="score">1000</strong></div>
+      <div><span class="label">Time</span><strong id="time">0:00</strong></div>
+      <div><span class="label">Hints</span><strong id="hints">0</strong></div>
+      <div><span class="label">Penalised checks</span><strong id="checks">0</strong></div>
+      <div><span class="label">Best</span><strong id="best">&ndash;</strong></div>
+    </section>
+
+    <section id="puzzle" class="puzzle" aria-label="Cryptogram puzzle"></section>
+
+    <section class="bank" aria-label="Letter keys">
+      <div id="bank-keys" class="bank-keys"></div>
+    </section>
+
+    <div class="controls">
+      <button type="button" id="check" class="btn primary">Check</button>
+      <button type="button" id="hint" class="btn">Hint (&minus;25)</button>
+    </div>
+
+    <p id="status" class="status" aria-live="polite"></p>
+
+    <section id="result" class="result" hidden aria-live="polite">
+      <h2>Solved!</h2>
+      <p id="result-score"></p>
+      <p id="result-author" class="author"></p>
+      <button type="button" id="next-puzzle" class="btn primary">Next puzzle</button>
+    </section>
+  </main>
+
+  <script src="cryptogram-core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
