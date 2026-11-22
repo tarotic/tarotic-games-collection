@@ -36,10 +36,10 @@
   };
 
   // phase: "ready" (board shown, not started), "playing", "over"
-  // mode: "type" or "tap"
+  // mode: "tap" (default) or "type"
   const state = {
     phase: "ready",
-    mode: "type",
+    mode: "tap",
     board: [],
     tiles: [], // tile elements, same order as board
     path: [], // tapped cell indices, in tap mode
@@ -132,8 +132,10 @@
   function renderControls() {
     const playing = state.phase === "playing";
     els.input.disabled = !(playing && state.mode === "type");
-    els.start.disabled = state.phase !== "ready";
-    els.start.textContent = state.phase === "over" ? "Round over" : state.phase === "playing" ? "Round in progress" : "Start round";
+    // The main button: Start round, then Give up during a round, then Round over (disabled).
+    els.start.disabled = state.phase === "over";
+    els.start.classList.toggle("give-up", playing);
+    els.start.textContent = state.phase === "over" ? "Round over" : playing ? "Give up" : "Start round";
     els.timerBox.classList.toggle("warn", playing && state.endAt - Date.now() <= 30000);
     renderModes();
     renderTapWord();
@@ -189,6 +191,17 @@
     if (state.mode === "type") els.input.focus();
   }
 
+  // The main button during a round: give up, which ends the round now.
+  function giveUp() {
+    if (state.phase !== "playing") return;
+    endRound("You gave up. Final score: " + state.score + ".");
+  }
+
+  function onMainButton() {
+    if (state.phase === "ready") startRound();
+    else if (state.phase === "playing") giveUp();
+  }
+
   function stopTimer() {
     if (state.timerId !== null) {
       clearInterval(state.timerId);
@@ -196,7 +209,8 @@
     }
   }
 
-  function endRound() {
+  // Ends the round. `message` is the status line; time running out is the default.
+  function endRound(message) {
     stopTimer();
     state.phase = "over";
     state.path = [];
@@ -222,7 +236,7 @@
     els.missedSummary.textContent =
       "You found " + foundWords.size + " of " + state.possible.size + " possible words. Final score: " + state.score + ".";
     els.missedSection.hidden = false;
-    setStatus("Time is up. Final score: " + state.score + ".");
+    setStatus(message || "Time is up. Final score: " + state.score + ".");
   }
 
   // Tap mode: add a tile to the word being built, if it touches the last one.
@@ -250,40 +264,68 @@
     setStatus("Cleared. Tap a tile to start a new word.");
   }
 
+  // Briefly flash the entry box red (CSS class "bad" restarts the animation).
+  function flashBad() {
+    const el = state.mode === "tap" ? els.tapWord : els.input;
+    el.classList.remove("bad");
+    void el.offsetWidth; // force a reflow so the animation restarts
+    el.classList.add("bad");
+  }
+
+  // Empties the word being entered, in whichever mode is active.
+  function clearEntry() {
+    els.input.value = "";
+    state.path = [];
+    renderTapWord();
+    renderTapHighlight();
+  }
+
+  // The word currently being entered, in whichever mode is active.
+  function currentEntry() {
+    return state.mode === "tap" ? core.pathText(state.board, state.path) : els.input.value;
+  }
+
+  // Rejected word: flash the letters red and say why in the status line, then clear
+  // the entry after a short pause. The clear is skipped if the player has already
+  // started a new word, so their new letters are never wiped.
+  function rejectWord(message) {
+    const shown = currentEntry();
+    flashBad();
+    setStatus(message, true);
+    setTimeout(function () {
+      if (state.phase === "playing" && currentEntry() === shown) clearEntry();
+    }, 450);
+  }
+
   // Shared by both modes: check the word, then score it or explain why not.
   function submitWord(event) {
     event.preventDefault();
     if (state.phase !== "playing") return;
 
-    const raw = state.mode === "tap" ? core.pathText(state.board, state.path) : els.input.value;
+    const raw = currentEntry();
     if (raw.trim() === "") return;
 
     const result = core.checkWord(raw, state.board, dict);
     if (!result.ok) {
-      setStatus(result.reason, true);
-      if (state.mode === "type") els.input.select();
+      rejectWord(result.reason);
       return;
     }
     if (state.found.some((f) => f.word === result.word)) {
-      setStatus("You already found “" + result.word + "”.", true);
-      if (state.mode === "type") els.input.select();
+      rejectWord("You already found \u201C" + result.word + "\u201D.");
       return;
     }
 
     state.found.push({ word: result.word, points: result.points });
     state.score += result.points;
-    els.input.value = "";
-    state.path = [];
+    clearEntry();
     renderScore();
     renderFound();
-    renderTapWord();
-    renderTapHighlight();
-    setStatus("+" + result.points + " for “" + result.word + "”.");
+    setStatus("+" + result.points + " for \u201C" + result.word + "\u201D.");
   }
 
   els.form.addEventListener("submit", submitWord);
   els.clear.addEventListener("click", clearTaps);
-  els.start.addEventListener("click", startRound);
+  els.start.addEventListener("click", onMainButton);
   els.newBoard.addEventListener("click", newBoard);
   els.modeType.addEventListener("click", function () { setMode("type"); });
   els.modeTap.addEventListener("click", function () { setMode("tap"); });

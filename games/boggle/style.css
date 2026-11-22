@@ -7,6 +7,7 @@
   --text: #ffffff;
   --muted: rgba(255, 255, 255, 0.75);
   --bad: #ffb4a8;
+  --bad-bg: #e5484d;
   --tile-size: min(72px, calc((100vw - 32px - 3 * 10px) / 4));
 }
 
@@ -201,3 +202,28 @@ button:not(:disabled):hover, button:not(:disabled):focus-visible { filter: brigh
 }
 .word-list li.miss { background: transparent; border: 1px solid rgba(255, 255, 255, 0.3); color: var(--muted); }
 .word-list li .pts { color: var(--accent); margin-left: 4px; font-size: 0.85rem; }
+
+/* Rejected word: the entry box flashes red and shakes. */
+#word-input.bad,
+.tap-word.bad {
+  animation: bad-flash 0.7s ease-out, bad-shake 0.4s ease-in-out;
+}
+@keyframes bad-flash {
+  0%, 30% { background: var(--bad-bg); color: #fff; border-color: var(--bad-bg); }
+  100% { background: var(--tile); color: var(--tile-ink); border-color: transparent; }
+}
+@keyframes bad-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #word-input.bad, .tap-word.bad { animation: bad-flash 0.7s ease-out; }
+}
+.bottom-mode { margin-top: 18px; margin-bottom: 18px; }
+
+.top-controls { margin: 0 0 16px; }
+.controls button.give-up {
+  background: var(--bad-bg);
+  color: #fff;
+}
