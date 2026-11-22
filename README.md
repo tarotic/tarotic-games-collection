@@ -52,7 +52,7 @@ games/boggle/index.html
 
 Press **Start round** to start the three-minute timer. Choose how to enter words with the **Tapping** / **Typing** switch (Tapping is the default):
 
-- **Tapping**: tap touching tiles to build the word. Each new tile must touch the last one and not be used already. **Clear** empties the word; Enter submits it. Swiping is not yet supported.
+- **Tapping**: tap touching tiles to build the word. Each new tile must touch the last one and not be used already. **Clear** empties the word; Enter submits it. Tapping the last tile again also submits it, so a repeated letter (the second s in "boss") submits only when you tap that tile a second time. Swiping is not yet supported.
 - **Typing**: type a word and press Enter. A word counts if it is in the dictionary, at least 3 letters long, and can be traced through touching letters (including diagonals) without reusing a letter cube. **Qu** is one cube and spells "qu". Points follow classic Boggle: 3-4 letters 1 point, 5 letters 2, 6 letters 3, 7 letters 5, 8 or more 11.
 
 When time runs out, the round shows every word you missed. **New board** rolls a fresh board at any time.
