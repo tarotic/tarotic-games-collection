@@ -215,6 +215,7 @@ button:focus-visible, select:focus-visible { outline: 3px solid #ffd54a; outline
   width: var(--card-w);
   height: var(--card-h);
   padding: 0;
+  margin-bottom: 26px; /* room for the deals-left label below the card */
   border-radius: 8px;
   border: 3px solid #f4f4f4;
   background-color: #1d4e89;
@@ -222,12 +223,17 @@ button:focus-visible, select:focus-visible { outline: 3px solid #ffd54a; outline
   position: relative;
 }
 .stock:disabled { opacity: 0.3; }
+/* Label sits just below the card on one line, centred on it, never wrapping onto the card. */
 .stock .count {
   position: absolute;
-  left: 0; right: 0; bottom: -22px;
-  text-align: center;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
   color: var(--muted);
   font-size: 0.85rem;
+  line-height: 1.2;
+  pointer-events: none;
 }
 .stock.back-red { background: radial-gradient(circle, #ffd3d3 0 12%, #b71c1c 13% 100%); border-color: #fff; }
 .stock.back-green { background-color: #2e7d32; background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.22) 0 6px, transparent 6px 14px); border-color: #e8f5e9; }
