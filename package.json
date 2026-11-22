@@ -4,7 +4,7 @@
   "private": true,
   "description": "A collection of games to play locally",
   "scripts": {
-    "test": "node --test games/sudoku/sudoku-core.test.js games/spider/spider-core.test.js games/spider/deal-anim.test.js games/spider/adversarial.test.js games/spider/adversarial-deal.test.js games/boggle/boggle-core.test.js"
+    "test": "node --test games/sudoku/sudoku-core.test.js games/spider/spider-core.test.js games/spider/deal-anim.test.js games/spider/adversarial.test.js games/spider/adversarial-deal.test.js games/boggle/boggle-core.test.js games/yahtzee/yahtzee-core.test.js"
   },
   "license": "UNLICENSED"
 }

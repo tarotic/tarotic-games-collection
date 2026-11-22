@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yahtzee</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="felt">
+    <header class="top">
+      <a class="back" href="../../index.html">&larr; All games</a>
+      <h1>Yahtzee</h1>
+      <div class="top-buttons">
+        <button type="button" id="theme-toggle" class="btn ghost">Light mode</button>
+        <button type="button" id="new-game" class="btn ghost">New game</button>
+      </div>
+    </header>
+
+    <section class="table" aria-label="Dice table">
+      <div class="dice" id="dice" aria-live="polite"></div>
+      <div class="controls">
+        <button type="button" id="roll" class="btn primary">Roll</button>
+        <p id="status" class="status"></p>
+      </div>
+    </section>
+
+    <section class="sheet" aria-label="Scorecard">
+      <table>
+        <thead>
+          <tr><th scope="col">Category</th><th scope="col">Score</th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="yahtzee-core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
