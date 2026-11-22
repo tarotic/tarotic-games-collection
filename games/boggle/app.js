@@ -240,8 +240,13 @@
   }
 
   // Tap mode: add a tile to the word being built, if it touches the last one.
+  // Tapping the last selected tile again submits the word.
   function tapCell(cell) {
     if (state.phase !== "playing" || state.mode !== "tap") return;
+    if (state.path.length > 0 && state.path[state.path.length - 1] === cell) {
+      submitCurrent();
+      return;
+    }
     if (!core.canTapNext(state.path, cell)) {
       if (state.path.indexOf(cell) !== -1) {
         setStatus("That tile is already in this word.", true);
@@ -300,6 +305,10 @@
   // Shared by both modes: check the word, then score it or explain why not.
   function submitWord(event) {
     event.preventDefault();
+    submitCurrent();
+  }
+
+  function submitCurrent() {
     if (state.phase !== "playing") return;
 
     const raw = currentEntry();
