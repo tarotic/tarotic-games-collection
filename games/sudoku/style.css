@@ -108,7 +108,8 @@ select:focus-visible {
   cursor: default;
 }
 
-.cell:nth-child(9n) {
+/* Thick vertical lines after columns 3 and 6 (box dividers); column 9 is the outer edge. */
+.cell:nth-child(3n) {
   border-right: 3px solid var(--thick);
 }
 
