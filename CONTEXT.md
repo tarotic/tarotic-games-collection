@@ -38,6 +38,19 @@ A glossary of the terms used across the games in the collection. Implementation 
 - **Target score**: 10,000 points. The first player to reach it triggers a final round.
 - **Final round**: one last Farkle turn for each other player after someone reaches the target score.
 
+## Cryptogram
+
+- **Cryptogram**: a puzzle in which a quote is written with each letter replaced by a different letter, using one fixed key for the whole puzzle.
+- **Quote**: the plain text a cryptogram is built from, taken from the game's bundled list.
+- **Key**: the letter-for-letter mapping that encodes a quote. Chosen at random for each puzzle. Every letter is changed; no letter encodes to itself.
+- **Cipher letter**: a letter as it appears in the encoded text. Only letters are encoded; spaces and punctuation are shown unchanged.
+- **Guess**: the plain letter a player has entered against a cipher letter.
+- **Check**: the player's request to mark every guess as right or wrong. Wrong guesses are only flagged when Check is pressed. A Check that finds at least one wrong guess costs 25 points.
+- **Hint**: revealing the correct letter for one cipher letter. Costs 25 points. Reveals the selected cipher letter if one is selected, otherwise a random unrevealed one.
+- **Solve**: every cipher letter has a correct guess, confirmed by Check. Shows the quote's author.
+- **Score**: starts at 1,000 points and drops by one point per second from the first keystroke or click, floored at zero, less 25 points for each hint and each penalised Check.
+- **Best score**: the highest score a player has achieved for a quote, kept per browser.
+
 ## Golf
 
 - **Grid**: the six cards in front of the player, laid out as two rows of three. Each **column** is a top and a bottom card.
