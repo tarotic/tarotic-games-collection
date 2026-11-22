@@ -50,3 +50,21 @@ A glossary of the terms used across the games in the collection. Implementation 
 - **Swap**: placing the card in hand into a grid position. The card it replaces goes face up onto the discard pile.
 - **Round**: one deal of the grid, ending once all six grid cards are face up.
 - **Deal number**: the number that fixes a game's shuffles, so the same game can be replayed.
+
+## Minesweeper
+
+- **Board**: the grid of cells for one game. Its size and mine count are set by the **difficulty**.
+- **Difficulty**: one of three presets, Beginner (9×9, 10 mines), Intermediate (16×16, 40 mines) or Expert (30×16, 99 mines).
+- **Cell**: one square of the board. It holds either a mine or a safe cell, and is either hidden, revealed or flagged.
+- **Mine**: a cell that ends the game when revealed.
+- **Safe cell**: a cell without a mine.
+- **Flag**: a player's mark on a hidden cell showing it is thought to hold a mine. It does not change the cell's contents.
+- **Mine counter**: the number of mines on the board minus the number of flags placed. It can go negative.
+- **Number cell**: a revealed safe cell showing how many of its adjacent cells hold mines.
+- **Clear cell**: a revealed safe cell with no adjacent mines. Revealing one also reveals its neighbours, and so on across connected clear cells.
+- **Reveal**: opening a hidden cell. Revealing a mine loses the game.
+- **Chord**: clicking a revealed number cell whose adjacent flags match its number, which reveals its other hidden neighbours. If a flag is wrong, the chord can reveal a mine and lose the game.
+- **First click**: the player's first reveal. It is always a safe cell, and mines are placed only after it.
+- **Deal number**: the number that fixes a game's mine layout, so the same game can be replayed. Shown on the board and can be entered to start that deal.
+- **Win**: every safe cell is revealed. Flags do not need to match mines.
+- **Loss**: a mine is revealed. All mines are then shown.
